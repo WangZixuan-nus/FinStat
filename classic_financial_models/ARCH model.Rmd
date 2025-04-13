@@ -1,0 +1,25 @@
+---
+title: "autocorrelation"
+author: "Wang Zixuan"
+date: "2025-04-12"
+output: html_document
+---
+The auto-correlations of the changes/returns of an asset is very weak, thus prediction of the returns is not possible. However, auto-correlation of volatility is strong, and the volatility can be predicted. (GARCH model)
+
+My next day's volatility is correlated with today's volatility. 
+```{r}
+library(tseries)     # provide get.hist.quote()
+library(timeSeries)  # to provide as.timeSeries()
+
+
+P = get.hist.quote(instrument = "^DJI", start="2008-01-01", end="2013-01-1",
+               quote = c("AdjClose"),provider = "yahoo", compression = "d")
+
+plot(P)
+
+r = diff(data.matrix(log(P)))
+
+acf(r)
+acf(r*r)
+```
+
